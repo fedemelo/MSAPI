@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Body, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from src.config.db_config import get_db
 from src.schemas.doctor import DoctorCreate, DoctorResponse, DoctorUpdate
 from src.services.doctor import (
+    authenticate_doctor,
     create_doctor,
     delete_doctor,
     get_doctor,
@@ -46,6 +48,35 @@ def read_many_doctors(skip: int = 0, limit: int = 100, db: Session = Depends(get
 
 
 @router.post(
+    "/login",
+    response_model=dict,
+    status_code=status.HTTP_200_OK,
+)
+def login_doctor(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db),
+):
+    """
+    Authenticate a doctor and return a token.
+    """
+    token = authenticate_doctor(
+        db,
+        form_data.username,
+        form_data.password,
+    )
+    if not token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+    }
+
+
+@router.post(
     "/",
     response_model=DoctorResponse,
     status_code=status.HTTP_201_CREATED,
@@ -54,6 +85,10 @@ def create_new_doctor(doctor: DoctorCreate = Body(...), db: Session = Depends(ge
     """
     Create a new doctor.
     """
+    if get_doctor(db, doctor.email):
+        raise HTTPException(
+            status_code=400, detail="A doctor with this email already exists."
+        )
     return create_doctor(db, doctor)
 
 
