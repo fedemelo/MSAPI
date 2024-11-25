@@ -1,5 +1,143 @@
-# Melanoma Segmentation API
+<h1 align="center">Melanoma Segmentation API</h1>
+
+<p align="center">
+   <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"></a>
+   <a href="https://pycqa.github.io/isort/"><img src="https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336" alt="Imports: isort"></a>
+</p>
+
+---
+
 
 Melanoma Segmentation API (MSAPI) is a FastAPI-based REST API that communicates with segmentation and classification models for melanoma detection in dermoscopic images.
 
+## Quick Reference
 
+The official documentation for the API was built automatically by Swagger and is available at http://localhost:8002 once the server is running.
+
+However, the following table provides a quick reference for the most important endpoints available.
+
+| **Endpoint Path**           | **Description**                                                                                              |
+|------------------------------|--------------------------------------------------------------------------------------------------------------|
+| `/users/register`            | Registers a new user with fields: name, email, and password. Ensures email is unique.                       |
+| `/users/login`               | Authenticates a user using email and password.                                                              |
+| `/users/profile`             | Retrieves or updates user profile information (excluding email and password).                               |
+| `/images/upload`             | Allows authenticated users to upload an image along with patient name and ID.                              |
+| `/images/process`            | Processes the uploaded image and returns the segmentation mask by communicating with the model.             |
+| `/predictions/history`       | Retrieves a list of all predictions made by the user, including image name, date, and segmentation results. |
+
+## Local Setup
+
+The project must be run using [Python 3.11.3](https://www.python.org/downloads/release/python-3113/).
+
+### Dependencies
+
+1. Create a virtual environment
+
+   ```shell
+   python3.11 -m venv venv
+   ```
+
+2. Activate the virtual environment
+
+   Unix:
+
+   ```shell
+   source venv/bin/activate
+   ```
+
+   Windows:
+
+   ```batch
+   venv\Scripts\activate.bat
+   ```
+
+3. Install dependencies
+
+   ```shell
+   pip install -r requirements.txt
+   ```
+
+> [!WARNING]
+> **Windows users**
+>
+> Note that the `uvloop` package is not compatible with Windows. If it is present in the `requirements.txt` file, it must be manually removed before installing the dependencies. Removing it will not affect API functionality.
+
+
+4. Install pre-commit hooks
+
+   ```shell
+   pre-commit install
+   ```
+
+   This will ensure that the code is formatted, linted, and tested before each commit. See [Code Quality](#code-quality) for more information.
+
+### Database
+
+5. Create the database or restore a backup
+
+   Either create a new database or restore a backup:
+   - To create new database, run the following command:
+      ```shell
+      psql -U postgres -c "CREATE DATABASE melanoma_segmentation_db"
+      ```
+      Then, run the application. The application will create the necessary tables.
+
+   - To restore a backup, run the corresponding script.
+
+      Unix:
+
+      ```shell
+      sh db/restore-db-backup.sh
+      ```
+
+      Windows:
+
+      ```batch
+      db\restore-db-backup.bat
+      ```
+   
+ > [!NOTE] 
+ > There's also a script to save a backup of the database, `db/save-db-backup`, which saves the current state of the database into the `db/backups` directory.
+
+### Run the Server
+
+6. Run the server. In the root of the project, run the following command:
+
+   ```shell
+   uvicorn src.main:app --reload --host 0.0.0.0 --port 8002
+   ```
+
+   The server will be running on `http://localhost:8002`
+
+## Code Quality
+
+Before each commit, the code is automatically formatted, linted, and tested using a pre-commit hook.
+After each push, the unit tests are run on GitHub Actions and the code is scanned by SonarCloud.
+
+[Access SonarCloud here](url).
+
+### Formatting, Linting, and Testing
+
+The code is formatted using Black and isort, linted with Flake8, and tested with Pytest.
+
+A pre-commit hook takes care of formatting, linting, and testing the code before each commit. It must be installed by running the following command:
+
+```shell
+pre-commit install
+```
+
+#### Manual Formatting, Linting, and Testing
+
+Should the pre-commit hook fail, the code can be manually formatted, linted, and tested.
+
+To manually format the code:
+
+```shell
+isort . && black .
+```
+
+To lint the code:
+
+```shell
+flake8 .
+```
