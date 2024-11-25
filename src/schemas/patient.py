@@ -2,6 +2,8 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from src.schemas.image import FullImageResponse
+
 
 class PatientBase(BaseModel):
     """
@@ -75,5 +77,40 @@ class PatientResponse(PatientBase):
             "example": {
                 "cedula": 123456789,
                 "name": "John Smith",
+            }
+        }
+
+
+class FullPatientResponse(PatientBase):
+    """
+    Schema for the Patient response with doctor email included.
+    """
+
+    images: list[FullImageResponse]
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "cedula": 123456789,
+                "name": "John Smith",
+                "images": [
+                    {
+                        "id": "550e8400-e29b-41d4-a716-446655440000",
+                        "name": "Dermoscopic Image",
+                        "file_path": "/data/images/patient_123/image_550e8400.jpg",
+                        "predictions": [
+                            {
+                                "id": "550e8400-e29b-41d4-a716-446655440000",
+                                "name": "Melanoma",
+                                "confidence": 0.85,
+                            },
+                            {
+                                "id": "550e8400-e29b-41d4-a716-446655440000",
+                                "name": "Benign",
+                                "confidence": 0.15,
+                            },
+                        ],
+                    }
+                ],
             }
         }
