@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, Depends, File, HTTPException, UploadFile, s
 from sqlalchemy.orm import Session
 
 from src.config.db_config import get_db
-from src.schemas.image import ImageCreate, ImageResponse, ImageUpdate
+from src.schemas.image import FullImageResponse, ImageCreate, ImageResponse, ImageUpdate
 from src.services.image import create_image, delete_image
 from src.services.image import (
     delete_images_by_patient as delete_images_by_patient_service,
@@ -23,7 +23,7 @@ router = APIRouter(
 
 @router.get(
     "/{image_id}",
-    response_model=ImageResponse,
+    response_model=FullImageResponse,
     status_code=status.HTTP_200_OK,
 )
 def read_image(
