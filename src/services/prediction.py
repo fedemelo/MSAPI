@@ -167,7 +167,7 @@ def _validate_patient_directory(
 def _save_prediction_file(
     patient_dir: str,
     uploaded_file: UploadFile,
-    prediction_id: str,
+    prediction_id: uuid4,
 ) -> str:
     """
     Save the uploaded prediction file to the local filesystem.
@@ -204,7 +204,7 @@ def _save_prediction_to_database(
     db: Session,
     prediction: PredictionCreate,
     file_path: str,
-    prediction_id: str,
+    prediction_id: uuid4,
 ) -> Prediction:
     """
     Save the prediction record to the database.
