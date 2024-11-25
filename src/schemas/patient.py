@@ -4,6 +4,8 @@ from pydantic import BaseModel
 
 from src.schemas.image import FullImageResponse
 
+DOCTOR_NAME = "John Smith"
+
 
 class PatientBase(BaseModel):
     """
@@ -38,7 +40,7 @@ class PatientCreate(PatientBase):
         json_schema_extra = {
             "example": {
                 "cedula": 123456789,
-                "name": "John Smith",
+                "name": DOCTOR_NAME,
                 "doctor_email": "doctor@example.com",
             }
         }
@@ -76,7 +78,7 @@ class PatientResponse(PatientBase):
         json_schema_extra = {
             "example": {
                 "cedula": 123456789,
-                "name": "John Smith",
+                "name": DOCTOR_NAME,
             }
         }
 
@@ -92,7 +94,7 @@ class FullPatientResponse(PatientBase):
         json_schema_extra = {
             "example": {
                 "cedula": 123456789,
-                "name": "John Smith",
+                "name": DOCTOR_NAME,
                 "images": [
                     {
                         "id": "550e8400-e29b-41d4-a716-446655440000",

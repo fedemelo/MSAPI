@@ -5,6 +5,8 @@ from pydantic import BaseModel
 
 from src.schemas.prediction import PredictionResponse
 
+DERMOSCOPIC_IMAGE = "Dermoscopic Image"
+
 
 class ImageBase(BaseModel):
     """
@@ -40,7 +42,7 @@ class ImageCreate(BaseModel):
     class Config:
         json_schema_extra = {
             "example": {
-                "name": "Dermoscopic Image",
+                "name": DERMOSCOPIC_IMAGE,
                 "patient_cedula": 123456,
             }
         }
@@ -86,7 +88,7 @@ class ImageResponse(ImageBase):
         json_schema_extra = {
             "example": {
                 "id": "550e8400-e29b-41d4-a716-446655440000",
-                "name": "Dermoscopic Image",
+                "name": DERMOSCOPIC_IMAGE,
                 "file_path": "/data/images/patient_123/image_550e8400.jpg",
             }
         }
@@ -110,7 +112,7 @@ class FullImageResponse(ImageBase):
         json_schema_extra = {
             "example": {
                 "id": "550e8400-e29b-41d4-a716-446655440000",
-                "name": "Dermoscopic Image",
+                "name": DERMOSCOPIC_IMAGE,
                 "file_path": "/data/images/patient_123/image_550e8400.jpg",
                 "predictions": [
                     {
