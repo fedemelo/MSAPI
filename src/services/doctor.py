@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
@@ -87,7 +87,7 @@ def authenticate_doctor(
     db: Session,
     email: str,
     password: str,
-) -> str:
+) -> str | None:
     """
     Authenticate a doctor by email and password.
 
@@ -115,7 +115,7 @@ def authenticate_doctor(
 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = jwt.encode(
-        {"sub": email, "exp": datetime.utcnow() + access_token_expires},
+        {"sub": email, "exp": datetime.now(tz=timezone.utc) + access_token_expires},
         SETTINGS.SECRET_KEY,
         algorithm=ALGORITHM,
     )
