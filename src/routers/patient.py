@@ -1,16 +1,16 @@
 from fastapi import APIRouter, Body, Depends, HTTPException, status
-from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
 
 from src.config.db_config import get_db
 from src.schemas.patient import PatientCreate, PatientResponse, PatientUpdate
 from src.services.patient import (
     create_patient,
+    delete_patient,
     get_patient,
     get_patients,
     get_patients_by_doctor,
     update_patient,
-    delete_patient,
 )
 
 router = APIRouter(
@@ -39,7 +39,11 @@ def read_many_patients(skip: int = 0, limit: int = 100, db: Session = Depends(ge
     return get_patients(db, skip, limit)
 
 
-@router.get("/doctor/{doctor_email}", response_model=list[PatientResponse], status_code=status.HTTP_200_OK)
+@router.get(
+    "/doctor/{doctor_email}",
+    response_model=list[PatientResponse],
+    status_code=status.HTTP_200_OK,
+)
 def read_many_patients_by_doctor(
     doctor_email: str, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
 ):

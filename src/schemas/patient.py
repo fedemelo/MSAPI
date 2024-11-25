@@ -24,6 +24,7 @@ class PatientCreate(PatientBase):
     """
     Schema for creating a Patient instance.
     """
+
     doctor_email: str
 
     class Config:

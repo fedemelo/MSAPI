@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
-from src.models.patient import Patient
+
 from src.models.doctor import Doctor
+from src.models.patient import Patient
 from src.schemas.patient import PatientCreate, PatientUpdate
 
 
@@ -44,7 +45,12 @@ def get_patients(db: Session, skip: int = 0, limit: int = 100) -> list[Patient]:
     return db.query(Patient).offset(skip).limit(limit).all()
 
 
-def get_patients_by_doctor(db: Session, doctor_email: str, skip: int = 0, limit: int = 100,) -> list[Patient]:
+def get_patients_by_doctor(
+    db: Session,
+    doctor_email: str,
+    skip: int = 0,
+    limit: int = 100,
+) -> list[Patient]:
     """
     Get many patients by doctor email.
 
@@ -64,7 +70,13 @@ def get_patients_by_doctor(db: Session, doctor_email: str, skip: int = 0, limit:
     list[Patient]
         List of patient records.
     """
-    return db.query(Patient).filter(Patient.doctor_email == doctor_email).offset(skip).limit(limit).all()
+    return (
+        db.query(Patient)
+        .filter(Patient.doctor_email == doctor_email)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 def create_patient(db: Session, patient: PatientCreate) -> Patient:
@@ -125,7 +137,9 @@ def update_patient(db: Session, cedula: int, patient: PatientUpdate) -> Patient:
     if patient.doctor_email:
         doctor = db.query(Doctor).filter(Doctor.email == patient.doctor_email).first()
         if not doctor:
-            raise ValueError(f"Doctor with email {patient.doctor_email} does not exist.")
+            raise ValueError(
+                f"Doctor with email {patient.doctor_email} does not exist."
+            )
 
     db.query(Patient).filter(Patient.cedula == cedula).update(
         patient.model_dump(exclude_none=True)
