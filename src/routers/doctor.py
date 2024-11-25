@@ -8,6 +8,7 @@ from src.services.doctor import (
     authenticate_doctor,
     create_doctor,
     delete_doctor,
+    get_current_doctor,
     get_doctor,
     get_doctors,
     update_doctor,
@@ -25,7 +26,11 @@ router = APIRouter(
     response_model=DoctorResponse,
     status_code=status.HTTP_200_OK,
 )
-def read_doctor(email: str, db: Session = Depends(get_db)):
+def read_doctor(
+    email: str,
+    db: Session = Depends(get_db),
+    authorization=Depends(get_current_doctor),
+):
     """
     Retrieve a doctor by email.
     """
@@ -40,7 +45,12 @@ def read_doctor(email: str, db: Session = Depends(get_db)):
     response_model=list[DoctorResponse],
     status_code=status.HTTP_200_OK,
 )
-def read_many_doctors(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+def read_many_doctors(
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(get_db),
+    authorization=Depends(get_current_doctor),
+):
     """
     Retrieve a list of doctors.
     """
@@ -98,7 +108,10 @@ def create_new_doctor(doctor: DoctorCreate = Body(...), db: Session = Depends(ge
     status_code=status.HTTP_200_OK,
 )
 def update_existing_doctor(
-    email: str, doctor: DoctorUpdate = Body(...), db: Session = Depends(get_db)
+    email: str,
+    doctor: DoctorUpdate = Body(...),
+    db: Session = Depends(get_db),
+    authorization=Depends(get_current_doctor),
 ):
     """
     Update a doctor's details.
@@ -110,7 +123,11 @@ def update_existing_doctor(
     "/{email}",
     status_code=status.HTTP_204_NO_CONTENT,
 )
-def delete_existing_doctor(email: str, db: Session = Depends(get_db)):
+def delete_existing_doctor(
+    email: str,
+    db: Session = Depends(get_db),
+    authorization=Depends(get_current_doctor),
+):
     """
     Delete a doctor by email.
     """
