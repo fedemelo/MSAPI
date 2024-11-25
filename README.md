@@ -14,7 +14,7 @@ Melanoma Segmentation API (MSAPI) is a FastAPI-based REST API that communicates 
 
 ## Quick Reference
 
-The official documentation for the API was built automatically by Swagger and is available at http://localhost:8002 once the server is running.
+The official documentation for the API was built automatically by Swagger and is available at http://localhost:8000 once the server is running.
 
 However, the following table provides a quick reference for the most important endpoints available.
 
