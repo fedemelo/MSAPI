@@ -23,6 +23,11 @@ class PatientBase(BaseModel):
 class PatientCreate(PatientBase):
     """
     Schema for creating a Patient instance.
+
+    Attributes
+    ----------
+    doctor_email : str
+        Email address of the doctor associated with the patient.
     """
 
     doctor_email: str
@@ -45,6 +50,8 @@ class PatientUpdate(BaseModel):
     ----------
     name : Optional[str], optional
         Updated name of the patient.
+    doctor_email : Optional[str], optional
+        Updated email address of the doctor associated with the patient.
     """
 
     name: Optional[str] = None
