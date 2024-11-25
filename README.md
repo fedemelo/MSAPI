@@ -104,7 +104,7 @@ The project must be run using [Python 3.11.3](https://www.python.org/downloads/r
 6. Run the server. In the root of the project, run the following command:
 
    ```shell
-   uvicorn src.main:app --reload --host 0.0.0.0 --port 8002
+   python -m run
    ```
 
    The server will be running on `http://localhost:8002`
