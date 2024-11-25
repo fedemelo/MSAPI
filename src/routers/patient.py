@@ -19,6 +19,8 @@ router = APIRouter(
     responses={404: {"detail": "Not found"}},
 )
 
+PATIENT_NOT_FOUND = "Patient not found"
+
 
 @router.get(
     "/{cedula}",
@@ -31,7 +33,7 @@ def read_patient(cedula: int, db: Session = Depends(get_db)):
     """
     db_patient = get_patient(db, cedula)
     if not db_patient:
-        raise HTTPException(status_code=404, detail="Patient not found")
+        raise HTTPException(status_code=404, detail=PATIENT_NOT_FOUND)
     return db_patient
 
 
@@ -96,7 +98,7 @@ def update_existing_patient(
     try:
         db_patient = update_patient(db, cedula, patient)
         if not db_patient:
-            raise HTTPException(status_code=404, detail="Patient not found")
+            raise HTTPException(status_code=404, detail=PATIENT_NOT_FOUND)
         return db_patient
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -112,5 +114,5 @@ def delete_existing_patient(cedula: int, db: Session = Depends(get_db)):
     """
     db_patient = get_patient(db, cedula)
     if not db_patient:
-        raise HTTPException(status_code=404, detail="Patient not found")
+        raise HTTPException(status_code=404, detail=PATIENT_NOT_FOUND)
     delete_patient(db, cedula)
