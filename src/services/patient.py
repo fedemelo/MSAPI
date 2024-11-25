@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from src.models.doctor import Doctor
 from src.models.patient import Patient
 from src.schemas.patient import PatientCreate, PatientUpdate
+from src.services.image import delete_images_by_patient
 
 
 def get_patient(db: Session, cedula: int) -> Patient:
@@ -159,5 +160,6 @@ def delete_patient(db: Session, cedula: int) -> None:
     cedula : int
         Patient's cedula.
     """
+    delete_images_by_patient(db, cedula)
     db.query(Patient).filter(Patient.cedula == cedula).delete()
     db.commit()
