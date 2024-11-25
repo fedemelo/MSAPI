@@ -3,7 +3,12 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from src.config.db_config import get_db
-from src.schemas.patient import PatientCreate, PatientResponse, PatientUpdate
+from src.schemas.patient import (
+    FullPatientResponse,
+    PatientCreate,
+    PatientResponse,
+    PatientUpdate,
+)
 from src.services.patient import (
     create_patient,
     delete_patient,
@@ -24,7 +29,7 @@ PATIENT_NOT_FOUND = "Patient not found"
 
 @router.get(
     "/{cedula}",
-    response_model=PatientResponse,
+    response_model=FullPatientResponse,
     status_code=status.HTTP_200_OK,
 )
 def read_patient(cedula: int, db: Session = Depends(get_db)):
