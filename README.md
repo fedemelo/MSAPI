@@ -20,13 +20,13 @@ However, the following table provides a quick reference for the most important e
 
 | **Request Type** | **Endpoint Path**        | **Description**                                                                                              |
 | ---------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------ |
-| POST             | `v1.0/doctors`          | Registers a new user with fields: name, email, and password. Ensures email is unique.                        |
-| POST             | `v1.0/doctors/login`    | Authenticates a user using email and password.                                                               |
-| GET/PUT          | `v1.0/doctors/<email>`  | Retrieves (GET) or updates (PUT) doctor profile information.                                                 |
-| GET              | `v1.0/patients/<cedula>`| Retrieves the patient information, including all images uploaded for a patient and their segmentation masks. |
-| POST             | `v1.0/patients`         | Registers a new patient with fields: name, cédula, and doctor email. Ensures cédula is unique.               |
-| POST             | `v1.0/images`           | Allows uploading a named image to a patient with their cédula.                                               |
-| POST             | `v1.0/images/process`   | [PENDING] Processes the uploaded image and returns the segmentation mask by communicating with the model.    |
+| POST             | `v1.0/doctors`           | Registers a new user with fields: name, email, and password. Ensures email is unique.                        |
+| POST             | `v1.0/doctors/login`     | Authenticates a user using email and password.                                                               |
+| GET/PUT          | `v1.0/doctors/<email>`   | Retrieves (GET) or updates (PUT) doctor profile information.                                                 |
+| GET              | `v1.0/patients/<cedula>` | Retrieves the patient information, including all images uploaded for a patient and their segmentation masks. |
+| POST             | `v1.0/patients`          | Registers a new patient with fields: name, cédula, and doctor email. Ensures cédula is unique.               |
+| POST             | `v1.0/images`            | Allows uploading a named image to a patient with their cédula.                                               |
+| POST             | `v1.0/images/process`    | [PENDING] Processes the uploaded image and returns the segmentation mask by communicating with the model.    |
 
 ## Local Setup
 
@@ -144,3 +144,19 @@ To lint the code:
 ```shell
 flake8 .
 ```
+
+## API Design
+
+The API is structured based on the design illustrated in the UML class diagram below:
+
+*(Insert UML Diagram Here)*
+
+### Important Considerations
+
+While the UML diagram provides a high-level overview of the API design, there are specific details about how deletions are handled that are not depicted in the diagram. These are outlined as follows:
+
+- **Doctor Deletion**:  
+  The API restricts the deletion of a doctor if they have patients associated with them. Any attempt to delete such a doctor will be rejected.
+
+- **Patient Deletion**:  
+  The API permits the deletion of a patient. When a patient is deleted, all associated images and predictions are automatically removed as part of the deletion process. 
