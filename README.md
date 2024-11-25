@@ -149,7 +149,7 @@ flake8 .
 
 The API is structured based on the design illustrated in the UML class diagram below:
 
-*(Insert UML Diagram Here)*
+![MSAPI Class Diagram](https://github.com/user-attachments/assets/abee7b3d-036a-42b0-b55c-5f65bdd21cf9)
 
 ### Important Considerations
 
