@@ -17,11 +17,29 @@ INVALID_TOKEN: str = "Invalid token"
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"/{SETTINGS.API_VERSION}/doctors/login")
 
 
-def get_pwd_context():
-    return CryptContext(schemes=["bcrypt"], deprecated="auto")
+def get_current_doctor(
+    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
+):
+    """
+    Validate and return the current authenticated doctor.
+    """
+    try:
+        payload = jwt.decode(token, SETTINGS.SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise HTTPException(status_code=401, detail=INVALID_TOKEN)
+        doctor = get_doctor(db, email)
+        if doctor is None:
+            raise HTTPException(status_code=401, detail=INVALID_TOKEN)
+        return doctor
+    except JWTError:
+        raise HTTPException(status_code=401, detail=INVALID_TOKEN)
 
 
-def get_doctor(db: Session, email: str) -> Doctor:
+def get_doctor(
+    db: Session,
+    email: str,
+) -> Doctor:
     """
     Get a doctor by email.
 
@@ -40,7 +58,11 @@ def get_doctor(db: Session, email: str) -> Doctor:
     return db.query(Doctor).filter(Doctor.email == email).first()
 
 
-def get_doctors(db: Session, skip: int = 0, limit: int = 100) -> list[Doctor]:
+def get_doctors(
+    db: Session,
+    skip: int = 0,
+    limit: int = 100,
+) -> list[Doctor]:
     """
     Get many doctors.
 
@@ -61,7 +83,11 @@ def get_doctors(db: Session, skip: int = 0, limit: int = 100) -> list[Doctor]:
     return db.query(Doctor).offset(skip).limit(limit).all()
 
 
-def authenticate_doctor(db: Session, email: str, password: str) -> str:
+def authenticate_doctor(
+    db: Session,
+    email: str,
+    password: str,
+) -> str:
     """
     Authenticate a doctor by email and password.
 
@@ -81,7 +107,7 @@ def authenticate_doctor(db: Session, email: str, password: str) -> str:
     """
 
     db_doctor = get_doctor(db, email)
-    if not db_doctor or not get_pwd_context().verify(
+    if not db_doctor or not _get_pwd_context().verify(
         password,
         db_doctor.password,
     ):
@@ -96,26 +122,10 @@ def authenticate_doctor(db: Session, email: str, password: str) -> str:
     return access_token
 
 
-def get_current_doctor(
-    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
-):
-    """
-    Validate and return the current authenticated doctor.
-    """
-    try:
-        payload = jwt.decode(token, SETTINGS.SECRET_KEY, algorithms=[ALGORITHM])
-        email: str = payload.get("sub")
-        if email is None:
-            raise HTTPException(status_code=401, detail=INVALID_TOKEN)
-        doctor = get_doctor(db, email)
-        if doctor is None:
-            raise HTTPException(status_code=401, detail=INVALID_TOKEN)
-        return doctor
-    except JWTError:
-        raise HTTPException(status_code=401, detail=INVALID_TOKEN)
-
-
-def create_doctor(db: Session, doctor: DoctorCreate) -> Doctor:
+def create_doctor(
+    db: Session,
+    doctor: DoctorCreate,
+) -> Doctor:
     """
     Create a new doctor.
 
@@ -131,17 +141,20 @@ def create_doctor(db: Session, doctor: DoctorCreate) -> Doctor:
     Doctor
         Newly created doctor.
     """
-    db_doctor = Doctor(
-        **doctor.model_dump(exclude_none=True),
-        **{"password": get_pwd_context().hash(doctor.password)},
-    )
+    doctor_data = doctor.model_dump(exclude_none=True)
+    doctor_data["password"] = _get_pwd_context().hash(doctor.password)
+    db_doctor = Doctor(**doctor_data)
     db.add(db_doctor)
     db.commit()
     db.refresh(db_doctor)
     return db_doctor
 
 
-def update_doctor(db: Session, email: str, doctor: DoctorUpdate) -> Doctor:
+def update_doctor(
+    db: Session,
+    email: str,
+    doctor: DoctorUpdate,
+) -> Doctor:
     """
     Update a doctor.
 
@@ -166,7 +179,10 @@ def update_doctor(db: Session, email: str, doctor: DoctorUpdate) -> Doctor:
     return get_doctor(db, email)
 
 
-def delete_doctor(db: Session, email: str) -> None:
+def delete_doctor(
+    db: Session,
+    email: str,
+) -> None:
     """
     Delete a doctor.
 
@@ -179,3 +195,7 @@ def delete_doctor(db: Session, email: str) -> None:
     """
     db.query(Doctor).filter(Doctor.email == email).delete()
     db.commit()
+
+
+def _get_pwd_context():
+    return CryptContext(schemes=["bcrypt"], deprecated="auto")
