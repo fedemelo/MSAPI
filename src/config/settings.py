@@ -1,8 +1,10 @@
 import os
-from pydantic import BaseSettings
+
 from dotenv import load_dotenv
+from pydantic_settings import BaseSettings
 
 load_dotenv()
+
 
 class Settings(BaseSettings):
     """
@@ -23,6 +25,7 @@ class Settings(BaseSettings):
     DB_PORT: str
         The port in which the database is running.
     """
+
     PROJECT_NAME: str = "MSAPI"
     DB_NAME: str = "melanoma_segmentation_db"
     DB_USER: str = os.getenv("DB_USER")
@@ -32,5 +35,6 @@ class Settings(BaseSettings):
 
     class Config:
         case_sensitive = True
+
 
 SETTINGS = Settings()
