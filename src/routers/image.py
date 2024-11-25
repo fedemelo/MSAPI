@@ -195,7 +195,7 @@ def delete_existing_image(
     "/patient/{patient_cedula}",
     status_code=status.HTTP_204_NO_CONTENT,
 )
-def delete_images_by_patient(
+def delete_images_and_predictions_by_patient(
     patient_cedula: int,
     db: Session = Depends(get_db),
 ) -> None:
