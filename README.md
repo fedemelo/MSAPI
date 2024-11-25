@@ -116,7 +116,7 @@ The project must be run using [Python 3.11.3](https://www.python.org/downloads/r
 Before each commit, the code is automatically formatted, linted, and tested using a pre-commit hook.
 After each push, the unit tests are run on GitHub Actions and the code is scanned by SonarCloud.
 
-[Access SonarCloud here](https://sonarcloud.io/project/configuration/GitHubActions?id=fedemelo_MSAPI).
+[Access SonarCloud here](https://sonarcloud.io/summary/overall?id=fedemelo_MSAPI).
 
 ### Formatting, Linting, and Testing
 
