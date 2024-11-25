@@ -1,0 +1,14 @@
+[flake8]
+max-line-length = 120
+docstring-convention = numpy
+enable-extensions = G
+ignore=D200,W503,D100,D103,D104,E501
+exclude = 
+    .git,
+    .github,
+    .pytest_cache,
+    db,
+    __pycache__,
+    venv,
+    .venv,
+    db
