@@ -4,7 +4,7 @@ from fastapi.responses import RedirectResponse
 
 from src.config.db_config import Base, engine
 from src.config.settings import Settings
-from src.routers import doctor, patient, image, prediction
+from src.routers import doctor, image, patient, prediction
 
 settings = Settings()
 app = FastAPI(title=settings.PROJECT_NAME)
@@ -23,6 +23,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/")
 def root():
