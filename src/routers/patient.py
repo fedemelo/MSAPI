@@ -20,7 +20,11 @@ router = APIRouter(
 )
 
 
-@router.get("/{cedula}", response_model=PatientResponse, status_code=status.HTTP_200_OK)
+@router.get(
+    "/{cedula}",
+    response_model=PatientResponse,
+    status_code=status.HTTP_200_OK,
+)
 def read_patient(cedula: int, db: Session = Depends(get_db)):
     """
     Retrieve a patient by cedula.
@@ -31,7 +35,11 @@ def read_patient(cedula: int, db: Session = Depends(get_db)):
     return db_patient
 
 
-@router.get("/", response_model=list[PatientResponse], status_code=status.HTTP_200_OK)
+@router.get(
+    "/",
+    response_model=list[PatientResponse],
+    status_code=status.HTTP_200_OK,
+)
 def read_many_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """
     Retrieve a list of patients.
@@ -53,7 +61,11 @@ def read_many_patients_by_doctor(
     return get_patients_by_doctor(db, doctor_email, skip, limit)
 
 
-@router.post("/", response_model=PatientResponse, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/",
+    response_model=PatientResponse,
+    status_code=status.HTTP_201_CREATED,
+)
 def create_new_patient(
     patient: PatientCreate = Body(...), db: Session = Depends(get_db)
 ):
@@ -70,7 +82,11 @@ def create_new_patient(
         )
 
 
-@router.put("/{cedula}", response_model=PatientResponse, status_code=status.HTTP_200_OK)
+@router.put(
+    "/{cedula}",
+    response_model=PatientResponse,
+    status_code=status.HTTP_200_OK,
+)
 def update_existing_patient(
     cedula: int, patient: PatientUpdate = Body(...), db: Session = Depends(get_db)
 ):
@@ -86,7 +102,10 @@ def update_existing_patient(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.delete("/{cedula}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    "/{cedula}",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
 def delete_existing_patient(cedula: int, db: Session = Depends(get_db)):
     """
     Delete a patient by cedula.

@@ -18,7 +18,11 @@ router = APIRouter(
 )
 
 
-@router.get("/{email}", response_model=DoctorResponse, status_code=status.HTTP_200_OK)
+@router.get(
+    "/{email}",
+    response_model=DoctorResponse,
+    status_code=status.HTTP_200_OK,
+)
 def read_doctor(email: str, db: Session = Depends(get_db)):
     """
     Retrieve a doctor by email.
@@ -29,7 +33,11 @@ def read_doctor(email: str, db: Session = Depends(get_db)):
     return db_doctor
 
 
-@router.get("/", response_model=list[DoctorResponse], status_code=status.HTTP_200_OK)
+@router.get(
+    "/",
+    response_model=list[DoctorResponse],
+    status_code=status.HTTP_200_OK,
+)
 def read_many_doctors(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """
     Retrieve a list of doctors.
@@ -37,7 +45,11 @@ def read_many_doctors(skip: int = 0, limit: int = 100, db: Session = Depends(get
     return get_doctors(db, skip, limit)
 
 
-@router.post("/", response_model=DoctorResponse, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/",
+    response_model=DoctorResponse,
+    status_code=status.HTTP_201_CREATED,
+)
 def create_new_doctor(doctor: DoctorCreate = Body(...), db: Session = Depends(get_db)):
     """
     Create a new doctor.
@@ -45,7 +57,11 @@ def create_new_doctor(doctor: DoctorCreate = Body(...), db: Session = Depends(ge
     return create_doctor(db, doctor)
 
 
-@router.put("/{email}", response_model=DoctorResponse, status_code=status.HTTP_200_OK)
+@router.put(
+    "/{email}",
+    response_model=DoctorResponse,
+    status_code=status.HTTP_200_OK,
+)
 def update_existing_doctor(
     email: str, doctor: DoctorUpdate = Body(...), db: Session = Depends(get_db)
 ):
@@ -55,7 +71,10 @@ def update_existing_doctor(
     return update_doctor(db, email, doctor)
 
 
-@router.delete("/{email}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete(
+    "/{email}",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
 def delete_existing_doctor(email: str, db: Session = Depends(get_db)):
     """
     Delete a doctor by email.
