@@ -1,9 +1,11 @@
 <h1 align="center">Melanoma Segmentation API</h1>
 
 <p align="center">
+   <a href="https://sonarcloud.io/summary/new_code?id=fedemelo_MSAPI"><img src="https://sonarcloud.io/api/project_badges/measure?project=fedemelo_MSAPI&metric=alert_status" alt="Quality Gate Status"></a>
    <a href="https://github.com/psf/black"><img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black"></a>
    <a href="https://pycqa.github.io/isort/"><img src="https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336" alt="Imports: isort"></a>
 </p>
+
 
 ---
 
