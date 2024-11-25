@@ -18,14 +18,15 @@ The official documentation for the API was built automatically by Swagger and is
 
 However, the following table provides a quick reference for the most important endpoints available.
 
-| **Endpoint Path**           | **Description**                                                                                              |
-|------------------------------|--------------------------------------------------------------------------------------------------------------|
-| `/users/register`            | Registers a new user with fields: name, email, and password. Ensures email is unique.                       |
-| `/users/login`               | Authenticates a user using email and password.                                                              |
-| `/users/profile`             | Retrieves or updates user profile information (excluding email and password).                               |
-| `/images/upload`             | Allows authenticated users to upload an image along with patient name and ID.                              |
-| `/images/process`            | Processes the uploaded image and returns the segmentation mask by communicating with the model.             |
-| `/predictions/history`       | Retrieves a list of all predictions made by the user, including image name, date, and segmentation results. |
+| **Request Type** | **Endpoint Path**        | **Description**                                                                                              |
+| ---------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------ |
+| POST             | `v1.0/doctors`          | Registers a new user with fields: name, email, and password. Ensures email is unique.                        |
+| POST             | `v1.0/doctors/login`    | Authenticates a user using email and password.                                                               |
+| GET/PUT          | `v1.0/doctors/<email>`  | Retrieves (GET) or updates (PUT) doctor profile information.                                                 |
+| GET              | `v1.0/patients/<cedula>`| Retrieves the patient information, including all images uploaded for a patient and their segmentation masks. |
+| POST             | `v1.0/patients`         | Registers a new patient with fields: name, cédula, and doctor email. Ensures cédula is unique.               |
+| POST             | `v1.0/images`           | Allows uploading a named image to a patient with their cédula.                                               |
+| POST             | `v1.0/images/process`   | [PENDING] Processes the uploaded image and returns the segmentation mask by communicating with the model.    |
 
 ## Local Setup
 
