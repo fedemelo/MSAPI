@@ -21,7 +21,7 @@ However, the following table provides a quick reference for the most important e
 | **Request Type** | **Endpoint Path**        | **Description**                                                                                              |
 | ---------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------ |
 | POST             | `v1.0/doctors`           | Registers a new user with fields: name, email, and password. Ensures email is unique.                        |
-| POST             | `v1.0/doctors/login`     | Authenticates a user using email and password.                                                               |
+| POST             | `v1.0/doctors/login`     | Authenticates a user using email and password with the OAuth 2.0 protocol.                                   |
 | GET/PUT          | `v1.0/doctors/<email>`   | Retrieves (GET) or updates (PUT) doctor profile information.                                                 |
 | GET              | `v1.0/patients/<cedula>` | Retrieves the patient information, including all images uploaded for a patient and their segmentation masks. |
 | POST             | `v1.0/patients`          | Registers a new patient with fields: name, cédula, and doctor email. Ensures cédula is unique.               |
