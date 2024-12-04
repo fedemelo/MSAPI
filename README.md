@@ -6,11 +6,11 @@
    <a href="https://pycqa.github.io/isort/"><img src="https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336" alt="Imports: isort"></a>
 </p>
 
-
 ---
 
-
 Melanoma Segmentation API (MSAPI) is a FastAPI-based REST API that communicates with segmentation and classification models for melanoma detection in dermoscopic images.
+
+It is designed to be consumed by the [Melanoma Segmentation Web Application (MSWA)](https://github.com/fedemelo/MSWA).
 
 ## Quick Reference
 
@@ -122,7 +122,7 @@ The project must be run using [Python 3.11.3](https://www.python.org/downloads/r
 ## Code Quality
 
 Before each commit, the code is automatically formatted, linted, and tested using a pre-commit hook.
-After each push, the unit tests are run on GitHub Actions and the code is scanned by SonarCloud.
+After each push, the code is scanned by SonarCloud.
 
 [Access SonarCloud here](https://sonarcloud.io/summary/overall?id=fedemelo_MSAPI).
 
