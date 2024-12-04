@@ -32,15 +32,22 @@ However, the following table provides a quick reference for the most important e
 
 The project must be run using [Python 3.11.3](https://www.python.org/downloads/release/python-3113/).
 
+1. Clone the repository and navigate to the project directory:
+
+   ```shell
+   git clone https://github.com/fedemelo/MSAPI
+   cd msapi
+   ```
+
 ### Dependencies
 
-1. Create a virtual environment
+2. Create a virtual environment
 
    ```shell
    python3.11 -m venv venv
    ```
 
-2. Activate the virtual environment
+3. Activate the virtual environment
 
    Unix:
 
@@ -54,7 +61,7 @@ The project must be run using [Python 3.11.3](https://www.python.org/downloads/r
    venv\Scripts\activate.bat
    ```
 
-3. Install dependencies
+4. Install dependencies
 
    ```shell
    pip install -r requirements.txt
@@ -66,7 +73,7 @@ The project must be run using [Python 3.11.3](https://www.python.org/downloads/r
 > Note that the `uvloop` package is not compatible with Windows. If it is present in the `requirements.txt` file, it must be manually removed before installing the dependencies. Removing it will not affect API functionality.
 
 
-4. Install pre-commit hooks
+5. Install pre-commit hooks
 
    ```shell
    pre-commit install
@@ -76,7 +83,7 @@ The project must be run using [Python 3.11.3](https://www.python.org/downloads/r
 
 ### Database
 
-5. Create the database or restore a backup
+6. Create the database or restore a backup
 
    Either create a new database or restore a backup:
    - To create new database, run the following command:
@@ -104,7 +111,7 @@ The project must be run using [Python 3.11.3](https://www.python.org/downloads/r
 
 ### Run the Server
 
-6. Run the server. In the root of the project, run the following command:
+7. Run the server. In the root of the project, run the following command:
 
    ```shell
    python -m run
