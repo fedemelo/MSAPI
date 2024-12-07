@@ -44,19 +44,19 @@ def read_patient(cedula: int, db: Session = Depends(get_db)):
 
 @router.get(
     "/",
-    response_model=list[PatientResponse],
+    response_model=list[FullPatientResponse],
     status_code=status.HTTP_200_OK,
 )
 def read_many_patients(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     """
-    Retrieve a list of patients.
+    Retrieve a list of full patients.
     """
     return get_patients(db, skip, limit)
 
 
 @router.get(
     "/doctor/{doctor_email}",
-    response_model=list[PatientResponse],
+    response_model=list[FullPatientResponse],
     status_code=status.HTTP_200_OK,
 )
 def read_many_patients_by_doctor(
