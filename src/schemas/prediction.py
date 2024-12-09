@@ -35,7 +35,7 @@ class PredictionCreate(BaseModel):
     class Config:
         json_schema_extra = {
             "example": {
-                "file_path": "/data/images/patient_123/prediction_550e8400.png",
+                "image_id": "550e8400-e29b-41d4-a716-446655440000",
             }
         }
 
@@ -43,20 +43,12 @@ class PredictionCreate(BaseModel):
 class PredictionResponse(PredictionBase):
     """
     Schema for the Prediction response.
-
-    Attributes
-    ----------
-    file_path : str
-        File path for the mask of the prediction.
     """
-
-    file_path: str
 
     class Config:
         json_schema_extra = {
             "example": {
                 "id": "550e8400-e29b-41d4-a716-446655440000",
                 "timestamp": "2024-11-24T12:34:56",
-                "file_path": "/data/images/patient_123/prediction_550e8400.png",
             }
         }
