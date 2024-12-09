@@ -1,4 +1,7 @@
+from os import path
+
 from fastapi import APIRouter, Body, Depends, File, HTTPException, UploadFile, status
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 from src.config.db_config import get_db
@@ -49,6 +52,29 @@ def read_image(
     if not db_image:
         raise HTTPException(status_code=404, detail="Image not found")
     return db_image
+
+
+@router.get("/images/{image_id}", response_class=FileResponse)
+def get_image_file(image_id: str, db: Session = Depends(get_db)):
+    """
+    Serve an image file based on its ID.
+
+    Parameters
+    ----------
+    image_id : str
+        The image ID.
+    db : Session
+        The database session.
+
+    Returns
+    -------
+    FileResponse
+        The image file.
+    """
+    image = get_image(db, image_id)
+    if not image or not path.exists(image.file_path):
+        raise HTTPException(status_code=404, detail="Image not found")
+    return FileResponse(image.file_path)
 
 
 @router.get(
