@@ -54,7 +54,10 @@ def read_image(
     return db_image
 
 
-@router.get("/images/{image_id}", response_class=FileResponse)
+@router.get(
+    "/file/{image_id}",
+    response_class=FileResponse,
+)
 def get_image_file(image_id: str, db: Session = Depends(get_db)):
     """
     Serve an image file based on its ID.
