@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Body, Depends, File, HTTPException, UploadFile, status
+from fastapi.responses import FileResponse
 from sqlalchemy.orm import Session
 
 from src.config.db_config import get_db
@@ -41,6 +42,27 @@ def read_prediction(
     if not db_prediction:
         raise HTTPException(status_code=404, detail="Prediction not found")
     return db_prediction
+
+
+@router.get(
+    "/file/{prediction_id}",
+    response_class=FileResponse,
+)
+def get_prediction_file(prediction_id: str, db: Session = Depends(get_db)):
+    """
+    Serve a prediction file based on its ID.
+
+    Attributes
+    ----------
+    prediction_id : str
+        The prediction's ID.
+    db : Session
+        The database session.
+    """
+    db_prediction = get_prediction(db, prediction_id)
+    if not db_prediction:
+        raise HTTPException(status_code=404, detail="Prediction not found")
+    return FileResponse(db_prediction.file_path)
 
 
 @router.get(
