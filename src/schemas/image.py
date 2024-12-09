@@ -82,14 +82,12 @@ class ImageResponse(ImageBase):
     """
 
     name: str
-    file_path: str
 
     class Config:
         json_schema_extra = {
             "example": {
                 "id": "550e8400-e29b-41d4-a716-446655440000",
                 "name": DERMOSCOPIC_IMAGE,
-                "file_path": "/data/images/patient_123/image_550e8400.jpg",
             }
         }
 
@@ -97,15 +95,9 @@ class ImageResponse(ImageBase):
 class FullImageResponse(ImageBase):
     """
     Schema for the Image response.
-
-    Attributes
-    ----------
-    file_path : str
-        File path for the stored image.
     """
 
     name: str
-    file_path: str
     predictions: list[PredictionResponse]
 
     class Config:
@@ -113,7 +105,6 @@ class FullImageResponse(ImageBase):
             "example": {
                 "id": "550e8400-e29b-41d4-a716-446655440000",
                 "name": DERMOSCOPIC_IMAGE,
-                "file_path": "/data/images/patient_123/image_550e8400.jpg",
                 "predictions": [
                     {
                         "id": "550e8400-e29b-41d4-a716-446655440000",
