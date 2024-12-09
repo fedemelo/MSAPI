@@ -1,5 +1,3 @@
-from datetime import datetime, timedelta, timezone
-
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
@@ -12,7 +10,6 @@ from src.models.doctor import Doctor
 from src.schemas.doctor import DoctorCreate, DoctorUpdate
 
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
 INVALID_TOKEN: str = "Invalid token"
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"/{SETTINGS.API_VERSION}/doctors/login")
 
@@ -113,9 +110,8 @@ def authenticate_doctor(
     ):
         return None
 
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = jwt.encode(
-        {"sub": email, "exp": datetime.now(tz=timezone.utc) + access_token_expires},
+        {"sub": email},
         SETTINGS.SECRET_KEY,
         algorithm=ALGORITHM,
     )
